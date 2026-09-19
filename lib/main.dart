@@ -756,7 +756,8 @@ class _HomePageState extends State<HomePage> {
     final weekNumber = _isoWeek(now);
     final parity = weekNumber.isOdd ? 'genap' : 'ganjil';
     final todaySchedule =
-        scheduleByParity[parity]?[dayName] ?? const <ScheduleRow>[];
+        scheduleByParity[parity]?[dayName.toLowerCase()] ??
+        const <ScheduleRow>[];
 
     return Card(
       child: Padding(
@@ -778,7 +779,8 @@ class _HomePageState extends State<HomePage> {
     final weekNumber = _isoWeek(date);
     final parity = weekNumber.isOdd ? 'genap' : 'ganjil';
     final tomorrowSchedule =
-        scheduleByParity[parity]?[dayName] ?? const <ScheduleRow>[];
+        scheduleByParity[parity]?[dayName.toLowerCase()] ??
+        const <ScheduleRow>[];
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -896,7 +898,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildDutyPanel() {
     final dutyDay = _dayName(DateTime.now().weekday);
-    final names = piketByDay[dutyDay] ?? const <String>[];
+    final names = piketByDay[dutyDay.toLowerCase()] ?? const <String>[];
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16),
