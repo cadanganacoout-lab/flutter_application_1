@@ -306,52 +306,80 @@ const teachers = <PersonData>[
 ];
 
 const piketByDay = <String, List<String>>{
-  "Senin": [
-    "Alexa Aditya Cindra Dewi",
-    "Aretha Maulina Noviatin",
-    "Atha Tandagra Suryansyah",
-    "Gilang Nur Maulida Faid",
-    "Nurul Safika",
+
+  "senin": [
+  "Tidak ada jadwal piket, Kelas XI RPL Sedang PKL.",
   ],
-  "Selasa": [
-    "Relyta Triya Ayu Lestari",
-    "Celsia Ramadhani",
-    "Ragil Satria Risdiyanto",
-    "Julian Tri Pratama",
-    "Satria Pradika Bayu Pratama",
-    "Rifky Aditya Saputra",
+
+  "selasa": [
+    "Tidak ada jadwal piket, Kelas XI RPL Sedang PKL.",
   ],
-  "Rabu": [
-    "Alecia Poppy Shakira Ayu Kirana",
-    "Diva Ayu Permata",
-    "Meta Evilya Giovany",
-    "Muhamad Akbar Fikriansyah",
-    "Dimas Riang Ilham Saputra",
-    "Ragil Bagus Nugroho",
+
+  "rabu": [
+    "Tidak ada jadwal piket, Kelas XI RPL Sedang PKL.",
   ],
-  "Kamis": [
-    "Gayuh Gita Yulia Natasya",
-    "Helcia Andika Putri",
-    "Hedri Setiawan",
-    "Sultan Pasha Ibrahim Sukarno",
-    "Kenza Pratama",
+
+  "kamis": [
+    "Tidak ada jadwal piket, Kelas XI RPL Sedang PKL.",
   ],
-  "Jumat": [
-    "Ardila Wahyuning Putri",
-    "Candy Al Azka",
-    "Ahmad Barak Neilfadli Hardiansyah",
-    "Bagas Ardiansyah",
-    "Ficko Adiputra Perdana",
+
+  "jumat": [
+    "Tidak ada jadwal piket, Kelas XI RPL Sedang PKL.",
   ],
-  "Sabtu": [
-    "Amanda Cinthya Kasih",
-    "Ena Zivana Idelia Gita",
-    "Nabila' Atha Nur Al Fiyah",
-    "Affandi Fathufrahman",
-    "Ilham Rofig Ananda Barocta",
-    "Khaula Nendra Sukma Athafarel",
+
+  "sabtu": [
+    "Tidak ada jadwal piket, Kelas XI RPL Sedang PKL.",
   ],
-  "Minggu": ["tidak ada jadwal piket hari ini."],
+
+  "minggu": [
+    "Tidak ada jadwal piket, Kelas XI RPL Sedang PKL.",
+  ],
+  // "Senin": [
+  //   "Alexa Aditya Cindra Dewi",
+  //   "Aretha Maulina Noviatin",
+  //   "Atha Tandagra Suryansyah",
+  //   "Gilang Nur Maulida Faid",
+  //   "Nurul Safika",
+  // ],
+  // "Selasa": [
+  //   "Relyta Triya Ayu Lestari",
+  //   "Celsia Ramadhani",
+  //   "Ragil Satria Risdiyanto",
+  //   "Julian Tri Pratama",
+  //   "Satria Pradika Bayu Pratama",
+  //   "Rifky Aditya Saputra",
+  // ],
+  // "Rabu": [
+  //   "Alecia Poppy Shakira Ayu Kirana",
+  //   "Diva Ayu Permata",
+  //   "Meta Evilya Giovany",
+  //   "Muhamad Akbar Fikriansyah",
+  //   "Dimas Riang Ilham Saputra",
+  //   "Ragil Bagus Nugroho",
+  // ],
+  // "Kamis": [
+  //   "Gayuh Gita Yulia Natasya",
+  //   "Helcia Andika Putri",
+  //   "Hedri Setiawan",
+  //   "Sultan Pasha Ibrahim Sukarno",
+  //   "Kenza Pratama",
+  // ],
+  // "Jumat": [
+  //   "Ardila Wahyuning Putri",
+  //   "Candy Al Azka",
+  //   "Ahmad Barak Neilfadli Hardiansyah",
+  //   "Bagas Ardiansyah",
+  //   "Ficko Adiputra Perdana",
+  // ],
+  // "Sabtu": [
+  //   "Amanda Cinthya Kasih",
+  //   "Ena Zivana Idelia Gita",
+  //   "Nabila' Atha Nur Al Fiyah",
+  //   "Affandi Fathufrahman",
+  //   "Ilham Rofig Ananda Barocta",
+  //   "Khaula Nendra Sukma Athafarel",
+  // ],
+  // "Minggu": ["tidak ada jadwal piket hari ini."],
 };
 
 const galleryItems = <GalleryData>[

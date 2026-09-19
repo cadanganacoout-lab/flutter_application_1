@@ -246,7 +246,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'XI RPL 1',
+      title: 'XI RPL',
       themeMode: darkMode ? ThemeMode.dark : ThemeMode.light,
       theme: _theme(Brightness.light),
       darkTheme: _theme(Brightness.dark),
@@ -392,7 +392,7 @@ class _HomePageState extends State<HomePage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'XI RPL 1',
+                'XI RPL',
                 style: TextStyle(fontSize: 15, fontWeight: FontWeight.w800),
               ),
               Text('SMK PGRI 2 Ponorogo', style: TextStyle(fontSize: 10)),
@@ -567,13 +567,13 @@ class _HomePageState extends State<HomePage> {
               _terminalDot(Colors.green),
               const SizedBox(width: 8),
               const Text(
-                'kelas@xirpl1: ~',
+                'kelas@xirpl: ~',
                 style: TextStyle(color: Colors.white54, fontSize: 11),
               ),
             ],
           ),
           const SizedBox(height: 14),
-          _terminalLine('whoami', 'XI RPL 1 — Rekayasa Perangkat Lunak'),
+          _terminalLine('whoami', 'XI RPL — Rekayasa Perangkat Lunak'),
           _terminalLine('date', date),
           _terminalLine('status --kelas', 'aktif · 33 siswa · 15 guru'),
           const Text(
