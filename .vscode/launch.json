@@ -1,73 +1,86 @@
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
-    "version": "0.2.0",
-    "configurations": [
-        
-        {
-            "type": "firefox",
-            "request": "launch",
-            "reAttach": true,
-            "name": "Launch add-on",
-            "addonPath": "${workspaceFolder}"
-        },
-        {
-            "type": "firefox",
-            "request": "attach",
-            "name": "Attach"
-        },
-        {
-            "type": "firefox",
-            "request": "launch",
-            "reAttach": true,
-            "name": "Launch index.html",
-            "file": "${workspaceFolder}/index.html"
-        },
-        {
-            "type": "firefox",
-            "request": "launch",
-            "reAttach": true,
-            "name": "Launch localhost",
-            "url": "http://localhost/index.html",
-            "webRoot": "${workspaceFolder}"
-        },
-        {
-            "name": "flutter_application_1",
-            "request": "launch",
-            "type": "dart"
-        },
-        {
-            "name": "flutter_application_1 (profile mode)",
-            "request": "launch",
-            "type": "dart",
-            "flutterMode": "profile"
-        },
-        {
-            "name": "flutter_application_1 (release mode)",
-            "request": "launch",
-            "type": "dart",
-            "flutterMode": "release"
-        },
-        {
-            "name": "flutter_inappwebview_android",
-            "cwd": "third_party\\flutter_inappwebview_android",
-            "request": "launch",
-            "type": "dart"
-        },
-        {
-            "name": "flutter_inappwebview_android (profile mode)",
-            "cwd": "third_party\\flutter_inappwebview_android",
-            "request": "launch",
-            "type": "dart",
-            "flutterMode": "profile"
-        },
-        {
-            "name": "flutter_inappwebview_android (release mode)",
-            "cwd": "third_party\\flutter_inappwebview_android",
-            "request": "launch",
-            "type": "dart",
-            "flutterMode": "release"
-        }
-    ]
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    
+    {
+      "type": "firefox",
+      "request": "launch",
+      "reAttach": true,
+      "name": "Launch localhost",
+      "url": "http://localhost:8080",
+      "webRoot": "${workspaceFolder}",
+      "presentation": {
+        "hidden": true
+      }
+    },
+    {
+      "name": "flutter_application_1 web-server",
+      "request": "launch",
+      "type": "dart",
+      "deviceId": "web-server",
+      "toolArgs": ["--web-port=8080"],
+      "presentation": {
+        "hidden": true
+      }
+    },
+    {
+      "name": "flutter_application_1 (profile mode)",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "profile",
+      "deviceId": "web-server",
+      "toolArgs": ["--web-port=8080"],
+      "presentation": {
+        "hidden": true
+      }
+    },
+    {
+      "name": "flutter_application_1 (release mode)",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "release",
+      "deviceId": "web-server",
+      "toolArgs": ["--web-port=8080"],
+      "presentation": {
+        "hidden": true
+      }
+    },
+    {
+      "name": "flutter_inappwebview_android",
+      "cwd": "third_party\\flutter_inappwebview_android",
+      "request": "launch",
+      "type": "dart"
+    },
+    {
+      "name": "flutter_inappwebview_android (profile mode)",
+      "cwd": "third_party\\flutter_inappwebview_android",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "profile"
+    },
+    {
+      "name": "flutter_inappwebview_android (release mode)",
+      "cwd": "third_party\\flutter_inappwebview_android",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "release"
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Debug flutter_application_1 in Firefox",
+      "configurations": [
+        "flutter_application_1 web-server",
+        "Launch localhost"
+      ],
+      "stopAll": true,
+      "presentation": {
+        "group": "web",
+        "order": 1
+      }
+    }
+  ]
 }

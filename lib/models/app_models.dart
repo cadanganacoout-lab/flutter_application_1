@@ -41,6 +41,13 @@ class ScheduleRow {
   final String subject;
   final String teacher;
   final String code;
+  final bool isBreak;
 
-  const ScheduleRow(this.time, this.subject, this.teacher, this.code);
+  const ScheduleRow(
+    this.time,
+    this.subject,
+    this.teacher,
+    this.code, {
+    this.isBreak = false,
+  });
 }

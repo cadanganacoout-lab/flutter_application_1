@@ -16,7 +16,8 @@ void main() {
     await tester.pumpWidget(const MyApp());
     await tester.pump(const Duration(milliseconds: 100));
 
-    expect(find.text('XI RPL 1'), findsOneWidget);
+    expect(find.text('XI RPL 1'), findsWidgets);
+    expect(find.text('Download APK'), findsOneWidget);
     expect(find.byType(NavigationBar), findsOneWidget);
   });
 }

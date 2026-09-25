@@ -41,6 +41,12 @@ Periksa instalasi Flutter dengan:
 flutter doctor
 ```
 
+## Unduh APK Terbaru
+
+Tautan unduhan aplikasi versi terbaru:
+
+- https://download-landing-page.vercel.app/
+
 ## Menjalankan Proyek
 
 1. Clone repository:
@@ -128,4 +134,4 @@ flutter test
 ## Lisensi
 
 Repository ini dibuat untuk kebutuhan informasi dan dokumentasi internal kelas
-XI RPL. Atur lisensi dan izin penggunaan aset sesuai kebutuhan pemilik proyek.
+XI RPL.

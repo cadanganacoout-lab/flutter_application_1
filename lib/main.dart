@@ -33,7 +33,7 @@ class _AppBootstrapState extends State<AppBootstrap> {
         if (snapshot.hasError) {
           return _LoadingApp(
             child: Text(
-              'Aplikasi gagal dimuat.\n${snapshot.error}',
+              'Aplikasi gagal dimuat....\n${snapshot.error}',
               textAlign: TextAlign.center,
               style: const TextStyle(color: Colors.white70),
             ),
@@ -60,7 +60,7 @@ class _LoadingApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'XI RPL 1',
+      title: 'XI RPL',
       home: Scaffold(
         body: DecoratedBox(
           decoration: const BoxDecoration(
@@ -504,18 +504,18 @@ class _HomePageState extends State<HomePage> {
           children: [
             _logo('assets/website/logo/logo sterida.webp', 'Sterida'),
             const SizedBox(width: 10),
-            _logo('assets/website/logo/rpl.webp', 'XI RPL'),
+            _logo('assets/website/logo/rpl.webp', 'XI RPL 1'),
           ],
         ),
         const SizedBox(height: 18),
-        _tag('kelas.status === "aktif"', const Color(0xff1e8e5a)),
+        _tag('kelas.status === "Aktif - (Semester Baru)"', const Color(0xff1e8e5a)),
         const SizedBox(height: 12),
         Text.rich(
           TextSpan(
             text: 'Selamat datang di ruang kelas ',
             children: [
               TextSpan(
-                text: 'XI RPL',
+                text: 'XI RPL 1',
                 style: TextStyle(color: Theme.of(context).colorScheme.primary),
               ),
             ],
@@ -754,10 +754,11 @@ class _HomePageState extends State<HomePage> {
     final now = DateTime.now();
     final dayName = _dayName(now.weekday);
     final weekNumber = _isoWeek(now);
-    final parity = weekNumber.isOdd ? 'genap' : 'ganjil';
+    final parity = weekNumber.isOdd ? 'ganjil' : 'genap';
     final todaySchedule =
         scheduleByParity[parity]?[dayName.toLowerCase()] ??
         const <ScheduleRow>[];
+    final currentPeriodIndex = _findCurrentPeriodIndex(todaySchedule, now);
 
     return Card(
       child: Padding(
@@ -767,7 +768,9 @@ class _HomePageState extends State<HomePage> {
           children: [
             _panelHeader('Jadwal Hari Ini', '$dayName · minggu $parity'),
             const SizedBox(height: 14),
-            ...todaySchedule.map(_scheduleTile),
+            ...todaySchedule.asMap().entries.map(
+              (entry) => _scheduleTile(entry.value, entry.key == currentPeriodIndex),
+            ),
           ],
         ),
       ),
@@ -777,10 +780,14 @@ class _HomePageState extends State<HomePage> {
   Widget _buildTomorrowPanel(DateTime date) {
     final dayName = _dayName(date.weekday);
     final weekNumber = _isoWeek(date);
-    final parity = weekNumber.isOdd ? 'genap' : 'ganjil';
+    final parity = weekNumber.isOdd ? 'ganjil' : 'genap';
     final tomorrowSchedule =
         scheduleByParity[parity]?[dayName.toLowerCase()] ??
         const <ScheduleRow>[];
+    final tomorrowDutyNames =
+        piketByDay[dayName.toLowerCase()] ?? const <String>[];
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -790,14 +797,88 @@ class _HomePageState extends State<HomePage> {
             _panelHeader('Jadwal & Piket Besok', '$dayName · minggu $parity'),
             const SizedBox(height: 12),
             ...tomorrowSchedule.take(4).map(_scheduleTile),
-            const SizedBox(height: 4),
-            Text(
-              'Piket besok tersedia di jadwal kelas.',
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
-                fontSize: 11,
+            const SizedBox(height: 12),
+            if (tomorrowDutyNames.isNotEmpty) ...[
+              Text(
+                'Piket Besok',
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w700,
+                  color: colorScheme.primary,
+                ),
               ),
-            ),
+              const SizedBox(height: 8),
+              ...tomorrowDutyNames.asMap().entries.map(
+                (entry) => Container(
+                  margin: const EdgeInsets.only(bottom: 6),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 8,
+                  ),
+                  decoration: BoxDecoration(
+                    color: entry.key == 0
+                        ? colorScheme.primary.withValues(alpha: 0.1)
+                        : colorScheme.surfaceContainerHighest,
+                    borderRadius: BorderRadius.circular(6),
+                    border: entry.key == 0
+                        ? Border.all(color: colorScheme.primary, width: 1)
+                        : null,
+                  ),
+                  child: Row(
+                    children: [
+                      CircleAvatar(
+                        radius: 10,
+                        backgroundColor: entry.key == 0
+                            ? colorScheme.primary
+                            : colorScheme.primary.withValues(alpha: 0.2),
+                        child: Text(
+                          '${entry.key + 1}',
+                          style: TextStyle(
+                            fontSize: 9,
+                            color: entry.key == 0
+                                ? Colors.white
+                                : colorScheme.primary,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Text(
+                          entry.value,
+                          style: TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.w500,
+                            color: entry.key == 0
+                                ? colorScheme.primary
+                                : colorScheme.onSurface,
+                          ),
+                        ),
+                      ),
+                      if (entry.key == 0)
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 5,
+                            vertical: 1,
+                          ),
+                          decoration: BoxDecoration(
+                            color: colorScheme.primary,
+                            borderRadius: BorderRadius.circular(3),
+                          ),
+                          child: const Text(
+                            'Ketua',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 7,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ],
         ),
       ),
@@ -824,7 +905,29 @@ class _HomePageState extends State<HomePage> {
     return 1 + ((difference + firstThursday.weekday - 1) ~/ 7);
   }
 
-  Widget _scheduleTile(ScheduleRow row) {
+  int _findCurrentPeriodIndex(List<ScheduleRow> schedule, DateTime now) {
+    final currentMinutes = now.hour * 60 + now.minute;
+    for (int i = 0; i < schedule.length; i++) {
+      final row = schedule[i];
+      if (row.isBreak || row.code == 'break') continue;
+      final timeParts = row.time.split('-');
+      if (timeParts.length != 2) continue;
+      final startParts = timeParts[0].split(':');
+      final endParts = timeParts[1].split(':');
+      if (startParts.length != 2 || endParts.length != 2) continue;
+      final startMinutes = int.parse(startParts[0]) * 60 + int.parse(startParts[1]);
+      final endMinutes = int.parse(endParts[0]) * 60 + int.parse(endParts[1]);
+      if (currentMinutes >= startMinutes && currentMinutes < endMinutes) {
+        return i;
+      }
+      if (currentMinutes < startMinutes) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
+  Widget _scheduleTile(ScheduleRow row, [bool isCurrent = false]) {
     if (row.code == 'break') {
       return Container(
         width: double.infinity,
@@ -843,23 +946,54 @@ class _HomePageState extends State<HomePage> {
         ),
       );
     }
+    final colorScheme = Theme.of(context).colorScheme;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Container(
       margin: const EdgeInsets.only(bottom: 7),
       padding: const EdgeInsets.symmetric(vertical: 9, horizontal: 10),
       decoration: BoxDecoration(
-        border: Border.all(color: Theme.of(context).dividerColor),
+        color: isCurrent
+            ? (isDark
+                ? colorScheme.primary.withValues(alpha: 0.15)
+                : colorScheme.primary.withValues(alpha: 0.08))
+            : Colors.transparent,
+        border: Border.all(
+          color: isCurrent
+              ? colorScheme.primary
+              : colorScheme.outline,
+          width: isCurrent ? 2 : 1,
+        ),
         borderRadius: BorderRadius.circular(7),
       ),
       child: Row(
         children: [
           SizedBox(
             width: 82,
-            child: Text(
-              row.time,
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
-                fontSize: 10,
-              ),
+            child: Row(
+              children: [
+                if (isCurrent) ...[
+                  Container(
+                    width: 6,
+                    height: 6,
+                    margin: const EdgeInsets.only(right: 6),
+                    decoration: BoxDecoration(
+                      color: colorScheme.primary,
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                ] else
+                  const SizedBox(width: 12),
+                Text(
+                  row.time,
+                  style: TextStyle(
+                    color: isCurrent
+                        ? colorScheme.primary
+                        : colorScheme.onSurfaceVariant,
+                    fontSize: 10,
+                    fontWeight: isCurrent ? FontWeight.w700 : FontWeight.normal,
+                  ),
+                ),
+              ],
             ),
           ),
           Expanded(
@@ -868,15 +1002,16 @@ class _HomePageState extends State<HomePage> {
               children: [
                 Text(
                   row.subject,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontWeight: FontWeight.w700,
                     fontSize: 12,
+                    color: isCurrent ? colorScheme.primary : colorScheme.onSurface,
                   ),
                 ),
                 Text(
                   row.teacher,
                   style: TextStyle(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    color: colorScheme.onSurfaceVariant,
                     fontSize: 10,
                   ),
                 ),
@@ -886,9 +1021,10 @@ class _HomePageState extends State<HomePage> {
           Text(
             row.code,
             style: TextStyle(
-              color: Theme.of(context).colorScheme.primary,
+              color: isCurrent ? colorScheme.primary : colorScheme.primary,
               fontFamily: 'monospace',
               fontSize: 10,
+              fontWeight: isCurrent ? FontWeight.w700 : FontWeight.normal,
             ),
           ),
         ],
@@ -897,48 +1033,84 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildDutyPanel() {
-    final dutyDay = _dayName(DateTime.now().weekday);
+    final now = DateTime.now();
+    final dutyDay = _dayName(now.weekday);
     final names = piketByDay[dutyDay.toLowerCase()] ?? const <String>[];
+    final colorScheme = Theme.of(context).colorScheme;
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _panelHeader('Piket Hari Ini', 'piket.json'),
+            _panelHeader('Piket Hari Ini', '$dutyDay · ${names.length} siswa'),
             const SizedBox(height: 14),
             ...names.asMap().entries.map(
               (entry) => Container(
                 margin: const EdgeInsets.only(bottom: 8),
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 9,
+                  horizontal: 12,
+                  vertical: 10,
                 ),
                 decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.surfaceContainerHighest,
-                  borderRadius: BorderRadius.circular(7),
+                  color: entry.key == 0
+                      ? colorScheme.primary.withValues(alpha: 0.1)
+                      : colorScheme.surfaceContainerHighest,
+                  borderRadius: BorderRadius.circular(8),
+                  border: entry.key == 0
+                      ? Border.all(color: colorScheme.primary, width: 1)
+                      : null,
                 ),
                 child: Row(
                   children: [
                     CircleAvatar(
-                      radius: 11,
-                      backgroundColor: Theme.of(context).colorScheme.primary,
+                      radius: 12,
+                      backgroundColor: entry.key == 0
+                          ? colorScheme.primary
+                          : colorScheme.primary.withValues(alpha: 0.2),
                       child: Text(
                         '${entry.key + 1}',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 10,
-                          color: Colors.white,
+                          color: entry.key == 0
+                              ? Colors.white
+                              : colorScheme.primary,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
                     ),
-                    const SizedBox(width: 9),
-                    Text(
-                      entry.value,
-                      style: const TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Text(
+                        entry.value,
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: entry.key == 0
+                              ? colorScheme.primary
+                              : colorScheme.onSurface,
+                        ),
                       ),
                     ),
+                    if (entry.key == 0)
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 6,
+                          vertical: 2,
+                        ),
+                        decoration: BoxDecoration(
+                          color: colorScheme.primary,
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: const Text(
+                          'Ketua',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 8,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
                   ],
                 ),
               ),
@@ -961,13 +1133,26 @@ class _HomePageState extends State<HomePage> {
         children: [
           Image.asset('assets/website/logo/slogan.webp', width: 220),
           const SizedBox(height: 16),
-          const Text(
-            '</> XI RPL 1',
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.w800,
-              fontFamily: 'monospace',
-            ),
+          Row(
+            children: const [
+              Text(
+                '</>',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w800,
+                  fontFamily: 'monospace',
+                ),
+              ),
+              SizedBox(width: 8),
+              Text(
+                'XI RPL 1',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w800,
+                  fontFamily: 'monospace',
+                ),
+              ),
+            ],
           ),
           const SizedBox(height: 6),
           const Text(
